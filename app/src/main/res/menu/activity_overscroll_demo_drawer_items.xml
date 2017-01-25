@@ -5,10 +5,20 @@
         android:checkableBehavior="single">
 
         <item
+            android:id="@+id/drawer_item_recyclerview_demo"
+            android:icon="@drawable/ic_recycler"
+            android:title="RecyclerView Demo"
+            android:checked="true"
+            />
+        <item
+            android:id="@+id/drawer_item_recyclerview_staggered_grid_demo"
+            android:icon="@drawable/ic_recycler"
+            android:title="RecyclerView - St.Grid Demo"
+            />
+        <item
             android:id="@+id/drawer_item_gridview_demo"
             android:icon="@drawable/ic_grid"
             android:title="GridView Demo"
-            android:checked="true"
             />
         <item
             android:id="@+id/drawer_item_listview_demo"
@@ -16,20 +26,21 @@
             android:title="ListView Demo"
             />
         <item
-            android:id="@+id/drawer_item_recyclerview_demo"
-            android:icon="@drawable/ic_recycler"
-            android:title="RecyclerView Demo"
-            />
-        <item
             android:id="@+id/drawer_item_scrollview_demo"
             android:icon="@drawable/ic_scroller"
             android:title="ScrollView Demo"
+            />
+        <item
+            android:id="@+id/drawer_item_viewpager_demo"
+            android:icon="@drawable/ic_view_pager"
+            android:title="ViewPager Demo"
             />
         <item
             android:id="@+id/drawer_item_misc_demo"
             android:icon="@drawable/ic_misc"
             android:title="Misc-Views Demo"
             />
+
     </group>
 
 </menu>

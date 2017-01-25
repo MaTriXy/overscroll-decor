@@ -22,8 +22,15 @@ public class HorizontalOverScrollBounceEffectDecorator extends OverScrollBounceE
                 return false;
             }
 
+            // Allow for counter-orientation-direction operations (e.g. item swiping) to run fluently.
+            final float dy = event.getY(0) - event.getHistoricalY(0, 0);
+            final float dx = event.getX(0) - event.getHistoricalX(0, 0);
+            if (Math.abs(dx) < Math.abs(dy)) {
+                return false;
+            }
+
             mAbsOffset = view.getTranslationX();
-            mDeltaOffset = (event.getX(0) - event.getHistoricalX(0, 0));
+            mDeltaOffset = dx;
             mDir = mDeltaOffset > 0;
 
             return true;
@@ -67,10 +74,6 @@ public class HorizontalOverScrollBounceEffectDecorator extends OverScrollBounceE
     public HorizontalOverScrollBounceEffectDecorator(IOverScrollDecoratorAdapter viewAdapter,
                                                      float touchDragRatioFwd, float touchDragRatioBck, float decelerateFactor) {
         super(viewAdapter, decelerateFactor, touchDragRatioFwd, touchDragRatioBck);
-
-        // Some setup on the view itself.
-        mViewAdapter.getView().setOnTouchListener(this);
-        mViewAdapter.getView().setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
     @Override

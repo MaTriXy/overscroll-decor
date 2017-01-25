@@ -1,7 +1,10 @@
 package me.everything.android.ui.overscroll;
 
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
@@ -13,6 +16,7 @@ import me.everything.android.ui.overscroll.adapters.HorizontalScrollViewOverScro
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter;
 import me.everything.android.ui.overscroll.adapters.ScrollViewOverScrollDecorAdapter;
 import me.everything.android.ui.overscroll.adapters.StaticOverScrollDecorAdapter;
+import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
 
 /**
  * @author amit
@@ -23,39 +27,41 @@ public class OverScrollDecoratorHelper {
     public static final int ORIENTATION_HORIZONTAL = 1;
 
     /**
-     * Set up the over-scroll decorator over a {@link RecyclerView} view.
-     * <br/>Only views with layout managers of class {@link LinearLayoutManager} are currently supported.
+     * Set up the over-scroll effect over a specified {@link RecyclerView} view.
+     * <br/>Only recycler-views using <b>native</b> Android layout managers (i.e. {@link LinearLayoutManager},
+     * {@link GridLayoutManager} and {@link StaggeredGridLayoutManager}) are currently supported
+     * by this convenience method.
      *
      * @param recyclerView The view.
-     * @param orientation One of {@link #ORIENTATION_HORIZONTAL} or {@link #ORIENTATION_VERTICAL}.
+     * @param orientation Either {@link #ORIENTATION_HORIZONTAL} or {@link #ORIENTATION_VERTICAL}.
+     *
+     * @return The over-scroll effect 'decorator', enabling further effect configuration.
      */
-    public static void setUpOverScroll(RecyclerView recyclerView, int orientation) {
+    public static IOverScrollDecor setUpOverScroll(RecyclerView recyclerView, int orientation) {
         switch (orientation) {
             case ORIENTATION_HORIZONTAL:
-                new HorizontalOverScrollBounceEffectDecorator(new RecyclerViewOverScrollDecorAdapter(recyclerView));
-                break;
+                return new HorizontalOverScrollBounceEffectDecorator(new RecyclerViewOverScrollDecorAdapter(recyclerView));
             case ORIENTATION_VERTICAL:
-                new VerticalOverScrollBounceEffectDecorator(new RecyclerViewOverScrollDecorAdapter(recyclerView));
-                break;
+                return new VerticalOverScrollBounceEffectDecorator(new RecyclerViewOverScrollDecorAdapter(recyclerView));
             default:
                 throw new IllegalArgumentException("orientation");
         }
     }
 
-    public static void setUpOverScroll(ListView listView) {
-        new VerticalOverScrollBounceEffectDecorator(new AbsListViewOverScrollDecorAdapter(listView));
+    public static IOverScrollDecor setUpOverScroll(ListView listView) {
+        return new VerticalOverScrollBounceEffectDecorator(new AbsListViewOverScrollDecorAdapter(listView));
     }
 
-    public static void setUpOverScroll(GridView gridView) {
-        new VerticalOverScrollBounceEffectDecorator(new AbsListViewOverScrollDecorAdapter(gridView));
+    public static IOverScrollDecor setUpOverScroll(GridView gridView) {
+        return new VerticalOverScrollBounceEffectDecorator(new AbsListViewOverScrollDecorAdapter(gridView));
     }
 
-    public static void setUpOverScroll(ScrollView scrollView) {
-        new VerticalOverScrollBounceEffectDecorator(new ScrollViewOverScrollDecorAdapter(scrollView));
+    public static IOverScrollDecor setUpOverScroll(ScrollView scrollView) {
+        return new VerticalOverScrollBounceEffectDecorator(new ScrollViewOverScrollDecorAdapter(scrollView));
     }
 
-    public static void setUpOverScroll(HorizontalScrollView scrollView) {
-        new HorizontalOverScrollBounceEffectDecorator(new HorizontalScrollViewOverScrollDecorAdapter(scrollView));
+    public static IOverScrollDecor setUpOverScroll(HorizontalScrollView scrollView) {
+        return new HorizontalOverScrollBounceEffectDecorator(new HorizontalScrollViewOverScrollDecorAdapter(scrollView));
     }
 
     /**
@@ -64,19 +70,24 @@ public class OverScrollDecoratorHelper {
      *
      * @param view The view.
      * @param orientation One of {@link #ORIENTATION_HORIZONTAL} or {@link #ORIENTATION_VERTICAL}.
+     *
+     * @return The over-scroll effect 'decorator', enabling further effect configuration.
      */
-    public static void setUpStaticOverScroll(View view, int orientation) {
+    public static IOverScrollDecor setUpStaticOverScroll(View view, int orientation) {
         switch (orientation) {
             case ORIENTATION_HORIZONTAL:
-                new HorizontalOverScrollBounceEffectDecorator(new StaticOverScrollDecorAdapter(view));
-                break;
+                return new HorizontalOverScrollBounceEffectDecorator(new StaticOverScrollDecorAdapter(view));
 
             case ORIENTATION_VERTICAL:
-                new VerticalOverScrollBounceEffectDecorator(new StaticOverScrollDecorAdapter(view));
-                break;
+                return new VerticalOverScrollBounceEffectDecorator(new StaticOverScrollDecorAdapter(view));
 
             default:
-                new IllegalArgumentException("orientation");
+                throw new IllegalArgumentException("orientation");
         }
     }
+
+    public static IOverScrollDecor setUpOverScroll(ViewPager viewPager) {
+        return new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(viewPager));
+    }
+
 }
