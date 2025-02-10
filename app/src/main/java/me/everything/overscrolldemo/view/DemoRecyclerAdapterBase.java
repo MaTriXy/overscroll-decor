@@ -1,17 +1,16 @@
 package me.everything.overscrolldemo.view;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import me.everything.overscrolldemo.control.DemoItem;
 
-/**
- * @author amit
- */
 public abstract class DemoRecyclerAdapterBase extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int COLOR_VIEW_TYPE = 0;
@@ -20,6 +19,20 @@ public abstract class DemoRecyclerAdapterBase extends RecyclerView.Adapter<Recyc
 
         public DemoViewHolder(int resId, ViewGroup parent, LayoutInflater inflater) {
             super(inflater.inflate(resId, parent, false));
+
+            getTextView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getTextView().getContext(), "Tapped on: "+getTextView().getText(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            getTextView().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(getTextView().getContext(), "Long-tapped on: "+getTextView().getText(), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
         }
 
         public void init(DemoItem item) {

@@ -1,19 +1,15 @@
 apply plugin: 'com.android.application'
 
-repositories {
-    mavenCentral()
-}
-
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 30
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
-        applicationId "me.everything.overscrolldemo"
+        applicationId 'me.everything.overscrolldemo'
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
     }
     buildTypes {
         release {
@@ -24,7 +20,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23+'
-    compile 'com.android.support:design:23.3.0'
-    compile project(':liboverscroll')
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation project(':liboverscroll')
+//    implementation 'io.github.everythingme:overscroll-decor-android:1.1.1'
 }

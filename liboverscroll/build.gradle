@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 30
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
     }
     buildTypes {
         release {
@@ -19,33 +19,15 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:recyclerview-v7:23.3.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
 
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:1.9.5"
-    testCompile "org.robolectric:robolectric:3.0"
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:3.1.0'
+    testImplementation 'org.robolectric:robolectric:4.3.1'
 }
 
-
-// Running from Gradle tab in IDE would create liboverscroll/build/lib/liboverscroll-sources.jar
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    failOnError false
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-// Running from Gradle tab in IDE would create liboverscroll/build/lib/liboverscroll-javadoc.jar
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
+// Enable publishing
+if (rootProject.hasProperty('_isOverscrollDecor')) {
+    apply from: './publishing.gradle'
 }

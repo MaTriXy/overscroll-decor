@@ -1,18 +1,19 @@
 package me.everything.overscrolldemo;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 
 import me.everything.overscrolldemo.view.GridViewDemoFragment;
 import me.everything.overscrolldemo.view.ListViewDemoFragment;
 import me.everything.overscrolldemo.view.MiscViewsDemoFragment;
+import me.everything.overscrolldemo.view.NestedScrollViewDemoFragment;
 import me.everything.overscrolldemo.view.RecyclerViewDemoFragment;
 import me.everything.overscrolldemo.view.RecyclerViewStaggeredGridDemoFragment;
 import me.everything.overscrolldemo.view.ScrollViewDemoFragment;
@@ -34,14 +35,14 @@ public class OverScrollDemoActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_nav);
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_placeholder, new RecyclerViewDemoFragment())
                     .commit();
         }
@@ -57,7 +58,6 @@ public class OverScrollDemoActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         final int id = item.getItemId();
@@ -79,11 +79,14 @@ public class OverScrollDemoActivity extends AppCompatActivity
             case R.id.drawer_item_scrollview_demo:
                 replaceMainFragment(new ScrollViewDemoFragment(), R.string.scroll_view_demo_title);
                 break;
-            case R.id.drawer_item_misc_demo:
-                replaceMainFragment(new MiscViewsDemoFragment(), R.string.misc_views_demo_title);
-                break;
             case R.id.drawer_item_viewpager_demo:
                 replaceMainFragment(new ViewPagerDemoFragment(),R.string.viewpager_demo_title);
+                break;
+            case R.id.drawer_item_nested_scrollview_demo:
+                replaceMainFragment(new NestedScrollViewDemoFragment(), R.string.nested_scrollview_demo_title);
+                break;
+            case R.id.drawer_item_misc_demo:
+                replaceMainFragment(new MiscViewsDemoFragment(), R.string.misc_views_demo_title);
                 break;
         }
 
@@ -93,7 +96,7 @@ public class OverScrollDemoActivity extends AppCompatActivity
     }
 
     private void replaceMainFragment(Fragment fragment, int titleResId) {
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.animator.fade_in_slow, R.animator.fade_out_quick)
                 .replace(R.id.fragment_placeholder, fragment)
                 .commit();
